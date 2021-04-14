@@ -11,8 +11,8 @@
                 <textarea class="form-control" id="PostText" rows="3"  v-model="post_data.text"></textarea>
             </div>
             <div class="form-group">
-                <label for="Select1">Category select</label>
-                <select class="form-control" id="Select1">
+                <label for="CategorySelect">Category select</label>
+                <select class="form-control" id="CategorySelect">
                     <option v-for="category in categories_list" :key="category.id" :value="category.id">{{category.name}}</option>
                 </select>
             </div>
@@ -47,7 +47,7 @@ export default {
             let fd = new FormData();
             fd.append('title', this.post_data.title)
             fd.append('text', this.post_data.text)
-            fd.append('category', document.getElementById("Select1").value)
+            fd.append('category', document.getElementById("CategorySelect").value)
             fd.append('subcategory', this.post_data.subcategory)
             fd.append('image', this.selected_file)
             getAPI.post('/post/add/', fd, {
