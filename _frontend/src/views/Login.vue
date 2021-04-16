@@ -54,7 +54,7 @@ export default {
         Box,
         Alert
     },
-    validations: {
+    validations: { //to do
         login_data: {
             username: {
                 required,

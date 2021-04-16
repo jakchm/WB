@@ -2,13 +2,13 @@
 <div id='app'>
     <Navbar></Navbar>
     <div class='container p-4 my-4 vh-sm-70 border'>
-        <h2>{{advert.title}}</h2>
+        <h2>{{post.title}}</h2>
         <div class="container m-wd">
             <div class="image-wrapper">
-                <img v-if="advert.image != null" :src=advert.image height="300px" width="auto" style="float: left;"/>
+                <img v-if="post.image != null" :src=post.image height="300px" width="auto" style="float: left;"/>
             </div>
             <div class="text-block">
-                <p>{{advert.text}}</p>
+                <p>{{post.text}}</p>
             </div>
         </div>
     </div>
@@ -21,7 +21,7 @@ import { getAPI } from '../axios-api'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 export default {
-    name: 'AdvertisementView',
+    name: 'PostView',
     components: {
         Navbar,
         Footer
@@ -29,7 +29,7 @@ export default {
     created() {
         getAPI.get('post/id/' + this.id,) 
         .then(response => {
-            this.advert = response.data
+            this.post = response.data
         })
         .catch(e => {
             console.log(e)
@@ -38,7 +38,7 @@ export default {
     data () {
         return {
             id: this.$route.params.id,
-            advert: {}
+            post: {}
         }
     },
 }

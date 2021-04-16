@@ -3,8 +3,8 @@
     <Navbar></Navbar>
     <div class='container p-2 my-2 vh-sm-70'>
         <div class="row">
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" v-for="advert in adverts" :key="advert.id">
-                <Card v-bind:image="advert.image" v-bind:title="advert.title" v-bind:id="advert.id"/>
+            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" v-for="post in posts" :key="post.id">
+                <Card v-bind:image="post.image" v-bind:title="post.title" v-bind:id="post.id"/>
             </div>
         </div>
     </div>
@@ -27,7 +27,7 @@ export default {
     created() {
         getAPI.get('post/category/' + this.id,) 
         .then(response => {
-            this.adverts = response.data
+            this.posts = response.data
         })
         .catch(e => {
             console.log(e)
@@ -36,7 +36,7 @@ export default {
     data () {
         return {
             id: this.$route.params.id,
-            adverts: []
+            posts: []
         }
     },
 }

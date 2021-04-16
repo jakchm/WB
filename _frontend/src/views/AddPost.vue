@@ -74,7 +74,7 @@ export default {
         SelectFile() {
             this.selected_file = this.$refs.image_file.files[0]
         },
-        SelectCategory () {
+        SelectCategory () { //not ended
             console.log(document.getElementById("Select1").value)
             var i;
             for (i=0; i < (this.$store.getters.getCategories == document.getElementById("Select1")).options.length; i++) {
