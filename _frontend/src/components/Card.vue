@@ -25,7 +25,6 @@ export default {
     methods: {
       TrimTitle(title) {
         const MaxLength = 27;
-        console.log(title);
         if(title.length <= MaxLength) {
           return title
         }

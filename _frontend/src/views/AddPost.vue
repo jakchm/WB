@@ -11,9 +11,15 @@
                 <textarea class="form-control" id="PostText" rows="3"  v-model="post_data.text"></textarea>
             </div>
             <div class="form-group">
-                <label for="CategorySelect">Category select</label>
-                <select class="form-control" id="CategorySelect">
-                    <option v-for="category in categories_list" :key="category.id" :value="category.id">{{category.name}}</option>
+                <label for="Select1">Category select</label>
+                <select class="form-control" id="Select1" @change="SelectCategory()">
+                    <option v-for="category in $store.getters.getCategories" :key="category.id" :value="category.id">{{category.name}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Select2">SubCategory select</label>
+                <select class="form-control" id="Select2">
+                    <option> </option>
                 </select>
             </div>
             <div class="form-group">
@@ -47,7 +53,7 @@ export default {
             let fd = new FormData();
             fd.append('title', this.post_data.title)
             fd.append('text', this.post_data.text)
-            fd.append('category', document.getElementById("CategorySelect").value)
+            fd.append('category', document.getElementById("Select1").value)
             fd.append('subcategory', this.post_data.subcategory)
             fd.append('image', this.selected_file)
             getAPI.post('/post/add/', fd, {
@@ -55,7 +61,7 @@ export default {
                     'accept': '*/*',
                     'Accept-Language': 'en-US,en;q=0.8',
                     'Content-Type': `multipart/form-data`,
-                    'Authorization': `Token ${this.$cookies.get("token")}`
+                    'Authorization': `Token ${this.$store.getters.getToken}`
                 }
             })
             .then(response => {
@@ -67,7 +73,15 @@ export default {
         },
         SelectFile() {
             this.selected_file = this.$refs.image_file.files[0]
+        },
+        SelectCategory () {
+            console.log(document.getElementById("Select1").value)
+            var i;
+            for (i=0; i < (this.$store.getters.getCategories == document.getElementById("Select1")).options.length; i++) {
+                document.getElementById("Select1").options[i] = this.$store.getters.getCategories
+            }
         }
+
     },
     data () {
         return {

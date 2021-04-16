@@ -12,7 +12,7 @@ class Category(models.Model):
 
 class SubCategory(models.Model):
     name = models.CharField(max_length=26)
-    category = models.ForeignKey(Category, related_name='main_category', on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, related_name='subcategories', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = "Sub Categories"

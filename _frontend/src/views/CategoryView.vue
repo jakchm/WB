@@ -18,7 +18,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
 export default {
-    name: 'CategoryView',
+    name: 'SubCategoryView',
     components: {
         Navbar,
         Footer,

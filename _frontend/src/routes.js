@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from './views/Home'
 import CategoryView from './views/CategoryView'
+import SubCategoryView from './views/SubCategoryView'
 import PostView from './views/PostView'
 import AddPost from './views/AddPost'
 import Login from './views/Login'
@@ -24,6 +25,12 @@ export default new VueRouter({
             props: true,
             component: CategoryView,
         },
+        {
+            path: '/subcategory/:id',
+            name: 'SubCategoryView',
+            props: true,
+            component: SubCategoryView,
+        },        
         {
             path: '/post/:id',
             name: 'PostView',

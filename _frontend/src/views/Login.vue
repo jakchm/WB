@@ -4,7 +4,7 @@
     
     <Navbar></Navbar>
 
-    <div v-if="!isLoggenIn()" class='container login '>
+    <div v-if="!$store.getters.isAuthenticated" class='container login '>
             <Box title="Login">
                 <md-field :class="messageClass">
                     <label>Username</label>
@@ -45,6 +45,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Box from '../components/Box'
 import Alert from '../components/Alert'
+import { mapMutations } from 'vuex';
 export default {
     name: 'Login',
     components: {
@@ -73,24 +74,19 @@ export default {
         }
     },
     methods: {
-        isLoggenIn() {
-            if (this.$cookies.get("token") == null) {
-                return false
-            } else {
-                return true
-            }
-        },
+        ...mapMutations([
+            'Authenticat',
+            'UnAuthenticat'
+        ]),
         RemoveToken() {
-            this.$cookies.remove("token")
-            this.$forceUpdate()
+            this.UnAuthenticat();
+            this.$forceUpdate();
         },
         FormSubmit() {
             getAPI.post('/account/login/', this.login_data)
             .then(response => {
-                if(this.$cookies.get("token") == null) {
-                    this.$cookies.set('token',response.data.token,"30MIN")
-                    this.$forceUpdate()
-                }
+                this.Authenticat(response.data.token)
+                this.$forceUpdate()
             })
             .catch(error => {
                 if (error.request.status == 400) {
@@ -107,7 +103,7 @@ export default {
                 .then(response => {
                     console.log(response)
                     this.register_form = false;
-                    this.$cookies.set('token',response.data.token,"30MIN")
+                    this.$store.mutations.Authenticat(response.data.token)
                     this.$forceUpdate()
                 })
                 .catch(error => {
@@ -119,13 +115,6 @@ export default {
         HideEmail() {
             this.register_form = false
             this.$forceUpdate() 
-        }
-    },
-    computed: {
-      messageClass () {
-        return {
-            'md-invalid': this.hasMessages
-            }
         }
     },
     data () {

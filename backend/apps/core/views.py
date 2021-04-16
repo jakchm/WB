@@ -27,6 +27,13 @@ class PostCategoryView(generics.ListAPIView):
     def get_queryset(self, *args, **kwargs):
         return Post.objects.filter(category=self.kwargs['pk'])
 
+class PostSubCategoryView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+    def get_queryset(self, *args, **kwargs):
+        return Post.objects.filter(subcategory=self.kwargs['pk'])
+
 class AddPostView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)   
 

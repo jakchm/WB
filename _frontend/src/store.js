@@ -15,17 +15,29 @@ export default new Vuex.Store({
       storage: window.sessionStorage,
     })],
     state: {
-        categories_list: {},
+        token: null,
+        categories_list: []
     },
     mutations: {
-        LoadData(state, categories) {
-            if(state.categories_list == null) {
-                state.categories_list = categories;
-            }
+        Authenticat(state, token) {
+            state.token = token;
+        },
+        UnAuthenticat(state) {
+            state.token = null;
+        },
+        loadCategories(state, response) {
+            state.categories_list = response;
         }
     },
     actions: {},
     getters: {
+        isAuthenticated(state) {
+            if(state.token != null) return true;
+            else return false;
+        },
+        getToken(state) {
+            return state.token
+        },
         getCategories(state) {
             return state.categories_list
         }

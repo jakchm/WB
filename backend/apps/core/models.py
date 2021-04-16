@@ -9,7 +9,7 @@ from django.conf import settings
 
 class Post(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
-    title = models.CharField(max_length=60)
+    title = models.CharField(max_length=30)
     text = models.TextField(max_length=5000)
     category = models.ForeignKey(Category, related_name='category', on_delete=models.CASCADE)
     subcategory = models.ForeignKey(SubCategory, related_name='subcategory', on_delete=models.CASCADE)
