@@ -20,7 +20,7 @@
     </div>
   </div>
   <div class="text-center p-3 bg-dark">
-    <a class="text-white">© 2020 Copyright ...</a>
+    <a class="text-white">© 2021 Copyright ...</a>
   </div>
 </footer>
 </template>

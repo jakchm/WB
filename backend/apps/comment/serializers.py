@@ -2,6 +2,14 @@ from rest_framework import serializers
 from .models import Comment
 
 class CommentSerializer(serializers.ModelSerializer):
+    author_name = serializers.SerializerMethodField('get_author_name')
     class Meta:
         model = Comment
-        fields = ('__all__')
+        fields = ('id','post','author_name','created_date','text')
+
+    def get_author_name(self, advert):
+        if advert.author == None:
+            return None
+        else:
+            username = advert.author.username
+            return username

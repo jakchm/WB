@@ -1,10 +1,9 @@
 from django.urls import path
-from .views import CommentView, CommentPerADVView, CommentPerIDView
+from .views import CommentPerPostView, CommentPerIDView
 
 app_name = 'comment'
 
 urlpatterns = [
-    path('', CommentView.as_view(), name="comment_view"),
     path('id/<int:pk>/', CommentPerIDView.as_view(), name="comment_per_id_view"),
-    path('adv/<int:pk>/', CommentPerADVView.as_view(), name="comment_per_adv_view"),
+    path('post/<int:pk>/', CommentPerPostView.as_view(), name="comment_per_post_view"),
 ]

@@ -10,6 +10,7 @@
             <div class="text-block">
                 <p>{{post.text}}</p>
             </div>
+            <CommentSection v-if="comments.length > 0" v-bind:comment_list="comments"></CommentSection>
         </div>
     </div>
     <Footer></Footer>
@@ -17,28 +18,46 @@
 </template>
 
 <script>
-import { getAPI } from '../axios-api'
+//import { BASE_URL } from '../axios-api'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import CommentSection from '../components/CommentSection'
+import axios from 'axios'
 export default {
     name: 'PostView',
     components: {
         Navbar,
-        Footer
+        Footer,
+        CommentSection
     },
     created() {
-        getAPI.get('post/id/' + this.id,) 
-        .then(response => {
-            this.post = response.data
+        const post_request = axios.get('http://127.0.0.1:8000' + '/post/id/' + this.id);
+        const comment_request = axios.get('http://127.0.0.1:8000' + '/comment/post/' + this.id);
+
+        axios.all([post_request, comment_request])
+        .then(axios.spread((...responses) => {
+            this.post = responses[0].data
+            this.comments = responses[1].data
+        }))
+        .catch(errors => {
+            console.log(errors)
         })
-        .catch(e => {
-            console.log(e)
-        })
+        //getAPI.get('post/id/' + this.id,) 
+        //.then(response => {
+        //    this.post = response.data
+        //})
+        //.catch(e => {
+        //    console.log(e)
+        //})
+    },
+    mounted() {
+      this.logged = this.$store.getters.isAuthenticated
     },
     data () {
         return {
             id: this.$route.params.id,
-            post: {}
+            post: {},
+            comments: {}
         }
     },
 }
