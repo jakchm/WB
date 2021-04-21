@@ -6,12 +6,12 @@
 
     <div v-if="!$store.getters.isAuthenticated" class='container login '>
             <Box title="Login">
-                <md-field :class="messageClass">
+                <md-field>
                     <label>Username</label>
                     <md-input v-model="login_data.username" required></md-input>
                     <span class="md-error">Username is required</span>
                 </md-field>
-                <md-field :class="messageClass">
+                <md-field>
                     <label>Password</label>
                     <md-input type="password" v-model="login_data.password" required></md-input>
                     <span class="md-error">Password is required</span>

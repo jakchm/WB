@@ -29,6 +29,7 @@
 
 <script>
 import { getAPI } from '../axios-api'
+import { mapMutations } from 'vuex'
 export default {
     name: 'Navbar',
     data() {
@@ -38,6 +39,9 @@ export default {
         }
     },
     methods: {
+      ...mapMutations([
+      'loadCategories', 
+      ]),
     },
     created() {
       if(this.$store.getters.getCategories.length == 0)
@@ -45,7 +49,8 @@ export default {
         getAPI.get('/category/')
         .then(response => {
           this.Categories = response.data
-          this.$store.mutations.loadCategories(response.data);
+          this.loadCategories(response.data);
+
         })
         .catch(err => {
           console.log(err)

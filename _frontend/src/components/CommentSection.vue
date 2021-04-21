@@ -2,7 +2,7 @@
 <div class="comment-box">
     <h2>Comments</h2>
 <Comment v-for="comment in comment_list" :key="comment.id" :author="comment.author_name">{{comment.text}}</Comment>
-<AddComment v-bind:logged="logged" />
+<AddComment />
 </div>
 </template>
 

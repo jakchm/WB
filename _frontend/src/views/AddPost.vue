@@ -12,14 +12,14 @@
             </div>
             <div class="form-group">
                 <label for="Select1">Category select</label>
-                <select class="form-control" id="Select1" @change="SelectCategory()">
+                <select class="form-control" id="Select1" @change="FetchSubacategory()">
                     <option v-for="category in $store.getters.getCategories" :key="category.id" :value="category.id">{{category.name}}</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="Select2">SubCategory select</label>
                 <select class="form-control" id="Select2">
-                    <option> </option>
+                    <option v-for="subcategory in subcategories" :key="subcategory.id" :value="subcategory.id">{{subcategory.name}}</option>
                 </select>
             </div>
             <div class="form-group">
@@ -75,11 +75,20 @@ export default {
             this.selected_file = this.$refs.image_file.files[0]
         },
         SelectCategory () { //not ended
+
+            document.getElementById("Select1").options = this.$store.getters.getCategories.filter(e => e.id == parseInt(document.getElementById("Select1").value)).subcategories.name
             console.log(document.getElementById("Select1").value)
-            var i;
-            for (i=0; i < (this.$store.getters.getCategories == document.getElementById("Select1")).options.length; i++) {
-                document.getElementById("Select1").options[i] = this.$store.getters.getCategories
+        },
+        FetchSubacategory () {
+            if(this.$store.getters.getCategories[parseInt(document.getElementById("Select1").value)] != null)
+            {
+                this.subcategories = this.$store.getters.getCategories[parseInt(document.getElementById("Select1").value)].subcategories
+                document.getElementById("Select2").disabled = false;
+            } else {
+                document.getElementById("Select2").disabled = true;
+                this.subcategories = {name: '', id: 1}
             }
+            console.log(document.getElementById("Select1").value)
         }
 
     },
@@ -91,7 +100,8 @@ export default {
                 category: 1,
                 subcategory: 1,
             },
-            selected_file: ''
+            selected_file: '',
+            subcategories: []
         }
     },
 }
