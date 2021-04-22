@@ -54,7 +54,7 @@ export default {
             fd.append('title', this.post_data.title)
             fd.append('text', this.post_data.text)
             fd.append('category', document.getElementById("Select1").value)
-            fd.append('subcategory', this.post_data.subcategory)
+            fd.append('subcategory', document.getElementById("Select2").value)
             fd.append('image', this.selected_file)
             getAPI.post('/post/add/', fd, {
                 headers: {
@@ -68,21 +68,17 @@ export default {
                 console.log(response)
             })
             .catch(error => {
+                console.log(error.response.data.non_field_errors[0])
                 console.log(error)
             })
         },
         SelectFile() {
             this.selected_file = this.$refs.image_file.files[0]
         },
-        SelectCategory () { //not ended
-
-            document.getElementById("Select1").options = this.$store.getters.getCategories.filter(e => e.id == parseInt(document.getElementById("Select1").value)).subcategories.name
-            console.log(document.getElementById("Select1").value)
-        },
         FetchSubacategory () {
-            if(this.$store.getters.getCategories[parseInt(document.getElementById("Select1").value)] != null)
+            if(this.$store.getters.getCategories[parseInt(document.getElementById("Select1").value) - 1] != null)
             {
-                this.subcategories = this.$store.getters.getCategories[parseInt(document.getElementById("Select1").value)].subcategories
+                this.subcategories = this.$store.getters.getCategories[parseInt(document.getElementById("Select1").value) - 1].subcategories
                 document.getElementById("Select2").disabled = false;
             } else {
                 document.getElementById("Select2").disabled = true;
@@ -101,7 +97,7 @@ export default {
                 subcategory: 1,
             },
             selected_file: '',
-            subcategories: []
+            subcategories: this.$store.getters.getCategories[0].subcategories
         }
     },
 }

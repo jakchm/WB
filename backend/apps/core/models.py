@@ -15,14 +15,11 @@ class Post(models.Model):
     subcategory = models.ForeignKey(SubCategory, related_name='subcategory', on_delete=models.CASCADE)
     created_date = models.DateField(auto_now_add=True)
     image = models.ImageField(upload_to="uploads/", null=True, blank=True)
+    views = models.IntegerField(default=0)
+    allow_comment = models.BooleanField(default=False)
     
     class Meta:
         verbose_name_plural = "Posts"
 
     def __str__(self):
         return self.title
-
-    @property
-    def author_name(self):
-        user = self.User.objects.get(id=author).username
-        return user

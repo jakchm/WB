@@ -1,8 +1,10 @@
 <template>
 <div class="comment-box">
     <h2>Comments</h2>
-<Comment v-for="comment in comment_list" :key="comment.id" :author="comment.author_name">{{comment.text}}</Comment>
-<AddComment />
+    <div v-if="comment_list.length > 0">
+        <Comment v-for="comment in comment_list" :key="comment.id" :author="comment.author_name">{{comment.text}}</Comment>
+    </div>
+    <AddComment />
 </div>
 </template>
 

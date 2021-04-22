@@ -2,7 +2,13 @@
 <div id='app'>
     <Navbar></Navbar>
     <div class='container p-4 my-4 vh-sm-70 border'>
-        <h2>{{post.title}}</h2>
+            <div class="container m-wd title_head">
+                <router-link :to="{ name: 'CategoryView', params: {id: post.category} }"><button>{{post.category_name}}</button></router-link> >> 
+                <router-link :to="{ name: 'SubCategoryView', params: {id: post.subcategory} }"><button>{{post.subcategory_name}}</button></router-link>
+                <h5>{{post.title}}</h5>
+                Author: {{post.author_name}}  
+                <span style="float: right; margin-right: 9%;">Added: {{post.created_date}}</span>
+            </div>
         <div class="container m-wd">
             <div class="image-wrapper">
                 <img v-if="post.image != null" :src=post.image height="300px" width="auto" style="float: left;"/>
@@ -10,7 +16,7 @@
             <div class="text-block">
                 <p>{{post.text}}</p>
             </div>
-            <CommentSection v-if="comments.length > 0" v-bind:comment_list="comments"></CommentSection>
+            <CommentSection v-bind:comment_list="comments"></CommentSection>
         </div>
     </div>
     <Footer></Footer>
@@ -42,13 +48,6 @@ export default {
         .catch(errors => {
             console.log(errors)
         })
-        //getAPI.get('post/id/' + this.id,) 
-        //.then(response => {
-        //    this.post = response.data
-        //})
-        //.catch(e => {
-        //    console.log(e)
-        //})
     },
     mounted() {
       this.logged = this.$store.getters.isAuthenticated
@@ -57,7 +56,7 @@ export default {
         return {
             id: this.$route.params.id,
             post: {},
-            comments: {}
+            comments: []
         }
     },
 }
@@ -112,14 +111,26 @@ img {
     text-justify: inter-word;
 }
 
-h2 {
-    margin: 0 0 0 11%;
-}
-
 .border {
     border: 1px solid #ccc!important;
     border-style: groove;
     border-radius: 15px;
+}
+
+.title_head {
+    margin-left: 13%;
+}
+
+.title_head button {
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    border-style: none;
+    font-size: 18px;
+    padding: 6px;
+}
+
+.title_head h5{
+    font-size: 42px;
 }
 
 </style>

@@ -36,7 +36,7 @@ export default {
                 this.$forceUpdate();
             })
             .catch(error => {
-                console.log(error)
+                console.log(error.response.data.non_field_errors[0])
             })
         }
     },
@@ -71,10 +71,12 @@ export default {
     border-radius: 5px;
     width: 85%;
     height: 30px;
+    border-style: none;
 }
 .comment button {
     border-radius: 5px;
     background-color: rgb(230, 230, 230);
+    border-style: none;
     
 }
 </style>
