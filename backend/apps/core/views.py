@@ -5,6 +5,7 @@ from .models import Post
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
+from .pagination import PostPagination
 from knox.models import AuthToken
 from django.db.models import F
 
@@ -13,6 +14,7 @@ from django.db.models import F
 class PostsView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    pagination_class = PostPagination
 
 class PostIDView(generics.RetrieveAPIView):
     queryset = Post.objects.all()
@@ -24,6 +26,7 @@ class PostIDView(generics.RetrieveAPIView):
 class PostCategoryView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    pagination_class = PostPagination
 
     def get_queryset(self, *args, **kwargs):
         return Post.objects.filter(category=self.kwargs['pk'])
@@ -31,6 +34,7 @@ class PostCategoryView(generics.ListAPIView):
 class PostSubCategoryView(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    pagination_class = PostPagination
 
     def get_queryset(self, *args, **kwargs):
         return Post.objects.filter(subcategory=self.kwargs['pk'])

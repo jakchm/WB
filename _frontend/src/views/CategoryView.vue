@@ -18,7 +18,7 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
 export default {
-    name: 'SubCategoryView',
+    name: 'CategoryView',
     components: {
         Navbar,
         Footer,
@@ -27,7 +27,7 @@ export default {
     created() {
         getAPI.get('post/category/' + this.id,) 
         .then(response => {
-            this.posts = response.data
+            this.posts = response.data.results
         })
         .catch(e => {
             console.log(e)

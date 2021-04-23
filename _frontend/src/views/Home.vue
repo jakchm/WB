@@ -27,7 +27,7 @@ export default {
     created() {
         getAPI.get('post/',) 
         .then(response => {
-            this.posts = response.data
+            this.posts = response.data.results
             console.log(response.data)
         })
         .catch(e => {

@@ -107,7 +107,7 @@ export default {
                     this.$forceUpdate()
                 })
                 .catch(error => {
-                    console.log(error)
+                    console.log(error.response.data)
                     console.log(this.login_data)
                 })  
             }

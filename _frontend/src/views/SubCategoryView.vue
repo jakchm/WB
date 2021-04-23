@@ -27,7 +27,7 @@ export default {
     created() {
         getAPI.get('post/subcategory/' + this.id,) 
         .then(response => {
-            this.posts = response.data
+            this.posts = response.data.results
         })
         .catch(e => {
             console.log(e)
