@@ -7,7 +7,7 @@
         <h4>Add comment</h4>
         <div class="row">
             <input v-model="input_text">
-            <button @click="AddComment">Send</button>
+            <button @click="AddComment" >Send</button>
         </div>
     </div>
 </div>
@@ -33,7 +33,6 @@ export default {
             })
             .then(response => {
                 console.log(response)
-                this.$forceUpdate();
             })
             .catch(error => {
                 console.log(error.response.data.non_field_errors[0])

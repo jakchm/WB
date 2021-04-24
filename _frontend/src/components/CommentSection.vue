@@ -4,7 +4,7 @@
     <div v-if="comment_list.length > 0">
         <Comment v-for="comment in comment_list" :key="comment.id" :author="comment.author_name">{{comment.text}}</Comment>
     </div>
-    <AddComment />
+    <AddComment/>
 </div>
 </template>
 

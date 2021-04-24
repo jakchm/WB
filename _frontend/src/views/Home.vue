@@ -9,11 +9,13 @@
         </div>
     </div>
     <Footer />
+    <div v-observe-visibility="bottomPaginator"> </div>
 </div>
 </template>
 
 <script>
 import { getAPI } from '../axios-api'
+import axios from 'axios'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
@@ -28,6 +30,7 @@ export default {
         getAPI.get('post/',) 
         .then(response => {
             this.posts = response.data.results
+            this.paginator = response.data.next
             console.log(response.data)
         })
         .catch(e => {
@@ -39,6 +42,29 @@ export default {
             posts: []
         }
     },
+    methods: {
+        bottomPaginator(isVisible) {
+            if (!isVisible) { return } 
+            if (this.paginator == null) {
+                console.log("Last page")
+            } else {
+                console.log(this.paginator)
+                this.loadPagination(this.paginator)
+                this.$forceUpdate()
+            }
+        },
+        loadPagination(path) {
+        axios.get(path) 
+        .then(response => {
+            this.posts.push(...response.data.results)
+            console.log(this.posts)
+            this.paginator = response.data.next
+        })
+        .catch(e => {
+            console.log(e)
+        })
+        }
+    }
 }
 </script>
 

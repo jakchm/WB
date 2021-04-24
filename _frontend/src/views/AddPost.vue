@@ -1,6 +1,6 @@
 <template>
 <div id='app'>
-    <Navbar></Navbar>
+    <Navbar />
     <div class='container p-2 my-2 vh-sm-70'>
             <div class="form-group">
                 <label for="PostTitle">Post Title</label>
@@ -27,7 +27,7 @@
             </div>
             <button class="btn btn-primary" @click="FormSubmit">Submit</button>
     </div>
-    <Footer></Footer>
+    <Footer />
 </div>
 </template>
 

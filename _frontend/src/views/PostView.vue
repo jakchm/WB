@@ -1,6 +1,6 @@
 <template>
 <div id='app'>
-    <Navbar></Navbar>
+    <Navbar />
     <div class='container p-4 my-4 vh-sm-70 border'>
             <div class="container m-wd title_head">
                 <router-link :to="{ name: 'CategoryView', params: {id: post.category} }"><button>{{post.category_name}}</button></router-link> >> 
@@ -19,7 +19,7 @@
             <CommentSection v-bind:comment_list="comments"></CommentSection>
         </div>
     </div>
-    <Footer></Footer>
+    <Footer />
 </div>
 </template>
 
@@ -56,7 +56,7 @@ export default {
         return {
             id: this.$route.params.id,
             post: {},
-            comments: []
+            comments: [],
         }
     },
 }

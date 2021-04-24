@@ -14,6 +14,9 @@ Vue.use(VueMaterial);
 import Vuelidate from 'vuelidate'
 Vue.use(Vuelidate);
 
+import VueObserveVisibility from 'vue-observe-visibility'
+Vue.use(VueObserveVisibility)
+
 new Vue({
   router,
   store,

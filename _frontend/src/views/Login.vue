@@ -1,9 +1,7 @@
 <template>
 
 <div id='app' class="vh-sm-70">
-    
-    <Navbar></Navbar>
-
+    <Navbar />
     <div v-if="!$store.getters.isAuthenticated" class='container login '>
             <Box title="Login">
                 <md-field>
@@ -34,7 +32,7 @@
     <div v-else class='container login'>
         <button class="btn btn-primary" style="margin: 20px; float: center;" @click="RemoveToken">LogOut</button>
     </div>
-    <Footer></Footer>
+    <Footer />
 </div>
 </template>
 

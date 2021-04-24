@@ -1,6 +1,6 @@
 <template>
 <div id='app'>
-    <Navbar></Navbar>
+    <Navbar />
     <div class='container p-2 my-2 vh-sm-70'>
         <div class="row">
             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" v-for="post in posts" :key="post.id">
@@ -8,12 +8,14 @@
             </div>
         </div>
     </div>
-    <Footer></Footer>
+    <Footer />
+    <div v-observe-visibility="bottomPaginator"> </div>
 </div>
 </template>
 
 <script>
 import { getAPI } from '../axios-api'
+import axios from 'axios'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Card from '../components/Card'
@@ -28,6 +30,7 @@ export default {
         getAPI.get('post/subcategory/' + this.id,) 
         .then(response => {
             this.posts = response.data.results
+            this.paginator = response.data.next
         })
         .catch(e => {
             console.log(e)
@@ -39,6 +42,29 @@ export default {
             posts: []
         }
     },
+    methods: {
+        bottomPaginator(isVisible) {
+            if (!isVisible) { return } 
+            if (this.paginator == null) {
+                console.log("Last page")
+            } else {
+                console.log(this.paginator)
+                this.loadPagination(this.paginator)
+                this.$forceUpdate()
+            }
+        },
+        loadPagination(path) {
+        axios.get(path) 
+        .then(response => {
+            this.posts.push(...response.data.results)
+            console.log(this.posts)
+            this.paginator = response.data.next
+        })
+        .catch(e => {
+            console.log(e)
+        })
+        }
+    }
 }
 </script>
 
