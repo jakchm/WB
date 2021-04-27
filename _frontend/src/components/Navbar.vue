@@ -17,10 +17,10 @@
     </div>
     <div class="row" v-if="logged" >
       <router-link class="nav-link" to="/post_add" > Add Article </router-link>
-      <router-link class="nav-link" to="/account/login" > Your account </router-link>
+      <router-link class="nav-link" :to="{ name: 'Account' }" > Your account </router-link>
     </div>
     <div v-else>
-      <router-link class="nav-link" to="/account/login" > Log In </router-link>
+      <router-link class="nav-link" :to="{ name: 'Login' }" > Log In </router-link>
     </div>
     <router-view :key ='$route.path' />
   </div>

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import ForbiddenUserNames
+from apps.core.models import Post
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -38,3 +39,40 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
         return data
+
+class UserInfoSerializer(serializers.ModelSerializer):
+    email = serializers.SerializerMethodField('get_email')
+    username = serializers.SerializerMethodField('get_username')
+    posts = serializers.SerializerMethodField('get_total_post')
+    class Meta:
+        model = User
+        fields = ('id','username', 'email','posts')
+        extra_kwargs = {'total_posts': {'read_only':True}}
+
+    def get_email(self, user):
+        if user.email == None:
+            return None
+        else:
+            email = user.email
+            return email
+
+    def get_username(self, user):
+        if user.username == None:
+            return None
+        else:
+            username = user.username
+            return username
+
+    def get_total_post(self, user):
+        if Post.count_posts_of(user) == None:
+            return None
+        else:
+            return Post.count_posts_of(user)
+
+
+    
+
+
+
+
+    

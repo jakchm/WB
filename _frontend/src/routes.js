@@ -6,6 +6,8 @@ import SubCategoryView from './views/SubCategoryView'
 import PostView from './views/PostView'
 import AddPost from './views/AddPost'
 import Login from './views/Login'
+import Account from './views/Account'
+import AccountPosts from './views/AccountPosts'
 
 
 Vue.use(VueRouter)
@@ -46,6 +48,16 @@ export default new VueRouter({
             path: '/account/login',
             name: 'Login',
             component: Login,
-        }   
+        },  
+        {
+            path: '/account',
+            name: 'Account',
+            component: Account,
+        },
+        {
+            path: '/account/posts',
+            name: 'AccountPosts',
+            component: AccountPosts,
+        },
     ]
 })

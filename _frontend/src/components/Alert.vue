@@ -22,13 +22,14 @@ export default {
     border: 1px solid #ccc!important;
     border-style: groove;
     border-radius: 5px;
-    min-height: 100px;
+    min-height: 70px;
     padding: 2% 5% 12% 5%;
     font-size: 24px;
     padding: 15px;
-    margin: 15px 0 0 0;
+    margin: 15px 0 15px 0;
     color: white;
-    
+    display: table-cell;
+    vertical-align: middle;
     }
 .alert-box p {
     font-size: 18px;

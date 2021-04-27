@@ -9,11 +9,10 @@ class PostSerializer(serializers.ModelSerializer):
     author_name = serializers.SerializerMethodField('get_author_name')
     category_name = serializers.SerializerMethodField('get_category_name')
     subcategory_name = serializers.SerializerMethodField('get_subcategory_name')
-    total_views = serializers.SerializerMethodField('get_views')
 
     class Meta:
         model = Post
-        fields = ('id','author','author_name','title','text','category','category_name','subcategory','subcategory_name','created_date','image','total_views')
+        fields = ('id','author','author_name','title','text','category','category_name','subcategory','subcategory_name','created_date','image')
 
     def get_author_name(self, post):
         if post.author == None:
@@ -35,10 +34,6 @@ class PostSerializer(serializers.ModelSerializer):
         else:
             subcategory = post.subcategory.name
             return subcategory
-
-    def get_views(self, post):
-        post.views += 1
-        return post.views
 
     def validate(self, data):
         if len(data.get('text')) < 500:

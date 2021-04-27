@@ -8,7 +8,7 @@ from django.conf import settings
 # Create your models here.
 
 class Post(models.Model):
-    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=False)
     title = models.CharField(max_length=30)
     text = models.TextField(max_length=5000)
     category = models.ForeignKey(Category, related_name='category', on_delete=models.CASCADE)
@@ -23,3 +23,6 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+    def count_posts_of(user):
+        return Post.objects.filter(author=user).count()

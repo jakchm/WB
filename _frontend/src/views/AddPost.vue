@@ -2,6 +2,7 @@
 <div id='app'>
     <Navbar />
     <div class='container p-2 my-2 vh-sm-70'>
+        <center><Alert v-if="error_text != null">{{error_text}}</Alert></center>
             <div class="form-group">
                 <label for="PostTitle">Post Title</label>
                 <input class="form-control" id="PostTitle" v-model="post_data.title">
@@ -36,12 +37,14 @@ import { mapState } from 'vuex';
 import { getAPI } from '../axios-api'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import Alert from '../components/Alert'
 import FormData from 'form-data'
 export default {
     name: 'AddPostView',
     components: {
         Navbar,
-        Footer
+        Footer,
+        Alert
     },
     computed: {
         ...mapState([
@@ -49,6 +52,22 @@ export default {
         ])
     },
     methods: {
+        Validator () {
+            if(this.post_data.title < 500 || this.post_data.title > 5000) {
+                this.error_text = "Title should have between 500-5000 characters"
+                return false
+            }
+            if(this.post_data.text < 500 || this.post_data.text > 5000) {
+                this.error_text = "Title should have between 500-5000 characters"
+                return false
+            }
+            if(this.selected_file == '') {
+                this.error_text = "Image should be loaded"
+                return false
+            }
+            this.error_text = null;
+            return true
+        },
         FormSubmit() {
             let fd = new FormData();
             fd.append('title', this.post_data.title)
@@ -56,6 +75,7 @@ export default {
             fd.append('category', document.getElementById("Select1").value)
             fd.append('subcategory', document.getElementById("Select2").value)
             fd.append('image', this.selected_file)
+            if(!this.Validator()) return false
             getAPI.post('/post/add/', fd, {
                 headers: {
                     'accept': '*/*',
@@ -68,6 +88,7 @@ export default {
                 console.log(response)
             })
             .catch(error => {
+                this.error_text = error.response.data.non_field_errors[0]
                 console.log(error.response.data.non_field_errors[0])
                 console.log(error)
             })
@@ -97,7 +118,8 @@ export default {
                 subcategory: 1,
             },
             selected_file: '',
-            subcategories: this.$store.getters.getCategories[0].subcategories
+            subcategories: this.$store.getters.getCategories[0].subcategories,
+            error_text: null
         }
     },
 }

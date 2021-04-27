@@ -7,7 +7,6 @@ from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from .pagination import PostPagination
 from knox.models import AuthToken
-from django.db.models import F
 
 # Create your views here.
 
@@ -39,9 +38,17 @@ class PostSubCategoryView(generics.ListAPIView):
     def get_queryset(self, *args, **kwargs):
         return Post.objects.filter(subcategory=self.kwargs['pk'])
 
+class PostUserView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
+    pagination_class = PostPagination
+    permission_classes = (IsAuthenticated,) 
+
+    def get_queryset(self, *args, **kwargs):
+        return Post.objects.filter(author=AuthToken.objects.get(token_key=self.request.META.get('HTTP_AUTHORIZATION')[6:14]).user.id)
+
 class AddPostView(generics.CreateAPIView):
     permission_classes = (IsAuthenticated,)   
-
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 

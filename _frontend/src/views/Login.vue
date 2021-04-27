@@ -4,6 +4,7 @@
     <Navbar />
     <div v-if="!$store.getters.isAuthenticated" class='container login '>
             <Box title="Login">
+                <Alert v-if="error_text != null">{{error_text}}</Alert>
                 <md-field>
                     <label>Username</label>
                     <md-input v-model="login_data.username" required></md-input>
@@ -23,11 +24,6 @@
                 <md-button class="md-raised" style="float: right;" @click="RegisterButton">Register</md-button>
                 <md-button class="md-raised" v-if="register_form == true" style="float: right;" @click="HideEmail">Hide email</md-button>
             </Box>
-            <Alert>
-                <p>
-                Creating account allow you to add new content and edit it. There is some content available for logged users.
-                </p>
-            </Alert>
     </div>
     <div v-else class='container login'>
         <button class="btn btn-primary" style="margin: 20px; float: center;" @click="RemoveToken">LogOut</button>
@@ -37,7 +33,6 @@
 </template>
 
 <script>
-import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 import { getAPI } from '../axios-api'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
@@ -52,25 +47,6 @@ export default {
         Box,
         Alert
     },
-    validations: { //to do
-        login_data: {
-            username: {
-                required,
-                minLength: minLength(5),
-                maxLength: maxLength(25)
-            },
-            password: {
-                required,
-                minLength: minLength(6),
-                maxLength: maxLength(25)
-            },
-            email: {
-                required,
-                minLength: minLength(5),
-                maxLength: maxLength(50)
-            },
-        }
-    },
     methods: {
         ...mapMutations([
             'Authenticat',
@@ -80,23 +56,44 @@ export default {
             this.UnAuthenticat();
             this.$forceUpdate();
         },
+        Validate() {
+            if(this.login_data.username.length < 3 || this.login_data.username.length > 35) {
+                this.error_text = "Username should contain between 3 to 35 characters"
+                return false
+            }
+            if(this.login_data.password.length < 3 || this.login_data.password.length > 20) {
+                this.error_text = "Password should contain between 3 to 20 characters"
+                return false
+            }
+            if(this.register_form == true) {
+                if(this.login_data.email.length < 6 || this.login_data.email.length > 40)
+                {
+                    this.error_text = "Email should have at least 6 characters and not more than 40 characters"
+                    return false
+                }
+                if(this.login_data.email.indexOf('@') == -1 || this.login_data.email.indexOf('.') == -1) {
+                    this.error_text = "This is not an email address"
+                    return false
+                }
+            }
+            this.error_text = null
+            return true
+        },
         FormSubmit() {
+            if(!this.Validate()) { return false}
             getAPI.post('/account/login/', this.login_data)
             .then(response => {
                 this.Authenticat(response.data.token)
                 this.$forceUpdate()
             })
-            .catch(error => {
-                if (error.request.status == 400) {
-                    console.log("Zły login lub hasło")
-                }
-            })
+            .catch(error => { this.error_text = error.response.data.non_field_errors[0] })
         },
         RegisterButton() {
             if(this.register_form == false) {
             this.register_form = true;
             this.$forceUpdate()          
             } else {
+                if(!this.Validate()) { return false}
                 getAPI.post('/account/register/', this.login_data)
                 .then(response => {
                     console.log(response)
@@ -104,9 +101,9 @@ export default {
                     this.$store.mutations.Authenticat(response.data.token)
                     this.$forceUpdate()
                 })
-                .catch(error => {
-                    console.log(error.response.data)
-                    console.log(this.login_data)
+                .catch(error => { 
+                    this.error_text = error.response.data.non_field_errors[0] 
+                    
                 })  
             }
         },
@@ -123,6 +120,7 @@ export default {
                 email: ''
             },
             register_form: false,
+            error_text: null
         }
     },
 }
