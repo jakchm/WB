@@ -36,7 +36,8 @@ export default {
         Footer,
         CommentSection
     },
-    created() {
+    methods: {
+        loadComments() {
         const post_request = axios.get('http://127.0.0.1:8000' + '/post/id/' + this.id);
         const comment_request = axios.get('http://127.0.0.1:8000' + '/comment/post/' + this.id);
 
@@ -48,6 +49,10 @@ export default {
         .catch(errors => {
             console.log(errors)
         })
+        }
+    },
+    created() {
+        this.loadComments()
     },
     mounted() {
       this.logged = this.$store.getters.isAuthenticated

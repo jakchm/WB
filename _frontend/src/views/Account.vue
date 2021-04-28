@@ -54,6 +54,9 @@ export default {
                 console.log(error)
             })
         },
+    mounted() {
+        if(!this.$store.getters.isAuthenticated) {this.$router.push({name: 'Home'})}
+    },    
     data () {
         return {
             user_data: []

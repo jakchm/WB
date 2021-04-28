@@ -4,7 +4,7 @@
     <Navbar />
     <div v-if="!$store.getters.isAuthenticated" class='container login '>
             <Box title="Login">
-                <Alert v-if="error_text != null">{{error_text}}</Alert>
+                <center><Alert v-if="error_text != null">{{error_text}}</Alert></center>
                 <md-field>
                     <label>Username</label>
                     <md-input v-model="login_data.username" required></md-input>
@@ -20,13 +20,10 @@
                     <md-input v-model="login_data.email" required></md-input>
                     <span class="md-error">There is an error</span>
                 </md-field>
-                <md-button class="md-raised" style="float: left;" @click="FormSubmit">Login</md-button>
+                <md-button id="login-button" class="md-raised" style="float: left;" @click="FormSubmit">Login</md-button>
                 <md-button class="md-raised" style="float: right;" @click="RegisterButton">Register</md-button>
                 <md-button class="md-raised" v-if="register_form == true" style="float: right;" @click="HideEmail">Hide email</md-button>
             </Box>
-    </div>
-    <div v-else class='container login'>
-        <button class="btn btn-primary" style="margin: 20px; float: center;" @click="RemoveToken">LogOut</button>
     </div>
     <Footer />
 </div>
@@ -50,12 +47,7 @@ export default {
     methods: {
         ...mapMutations([
             'Authenticat',
-            'UnAuthenticat'
         ]),
-        RemoveToken() {
-            this.UnAuthenticat();
-            this.$forceUpdate();
-        },
         Validate() {
             if(this.login_data.username.length < 3 || this.login_data.username.length > 35) {
                 this.error_text = "Username should contain between 3 to 35 characters"
@@ -84,13 +76,21 @@ export default {
             getAPI.post('/account/login/', this.login_data)
             .then(response => {
                 this.Authenticat(response.data.token)
-                this.$forceUpdate()
+                this.$router.push({ name: 'Account' })
             })
-            .catch(error => { this.error_text = error.response.data.non_field_errors[0] })
+            .catch(error => {  
+                if(error.response.status == 400) {  
+                    this.error_text = "Wrong username of password"
+                }
+                if( error.response.status == 500) {  
+                    this.error_text = "Server internal error. Please try next time."
+                }
+            })
         },
         RegisterButton() {
             if(this.register_form == false) {
             this.register_form = true;
+            document.getElementById("login-button").disabled = true;
             this.$forceUpdate()          
             } else {
                 if(!this.Validate()) { return false}
@@ -99,16 +99,17 @@ export default {
                     console.log(response)
                     this.register_form = false;
                     this.$store.mutations.Authenticat(response.data.token)
-                    this.$forceUpdate()
+                    this.$router.push({ name: 'Account' })
                 })
                 .catch(error => { 
-                    this.error_text = error.response.data.non_field_errors[0] 
-                    
+                        this.error_text = "Unable to register this nickname"
+                        this.error_text = error.response.data.non_field_errors[0]
                 })  
             }
         },
         HideEmail() {
             this.register_form = false
+            document.getElementById("login-button").disabled = false;
             this.$forceUpdate() 
         }
     },
@@ -120,7 +121,8 @@ export default {
                 email: ''
             },
             register_form: false,
-            error_text: null
+            error_text: null,
+            key: 0
         }
     },
 }

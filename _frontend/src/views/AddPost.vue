@@ -109,6 +109,9 @@ export default {
         }
 
     },
+    mounted() {
+        if(!this.$store.getters.isAuthenticated) {this.$router.push({name: 'Home'})}
+    },
     data () {
         return {
             post_data: {

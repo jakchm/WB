@@ -27,14 +27,14 @@ class RegisterSerializer(serializers.ModelSerializer):
         if ForbiddenUserNames.objects.filter(name=username):
             raise serializers.ValidationError("This name is forbidden!")
 
-        if User.objects.filter(username=username):
+        if User.objects.filter(username=username).exists():
             raise serializers.ValidationError("Somebody use this name")   
         
         email = data.get('email')
         if "@" not in email or "." not in email or len(email) < 6:
             raise serializers.ValidationError("This is not an email address")
 
-        if User.objects.filter(email=email):
+        if User.objects.filter(email=email).exists():
             raise serializers.ValidationError("Somebody use this email") 
 
 

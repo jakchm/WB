@@ -1,7 +1,7 @@
 <template>
 <div id='app'>
     <Navbar />
-    <div class='container p-2 my-2 vh-sm-70'>
+    <div v-if="!$store.getters.isAuthenticated" class='container p-2 my-2 vh-sm-70'>
         <div class="row">
             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" v-for="post in posts" :key="post.id">
                 <Card v-bind:image="post.image" v-bind:title="post.title" v-bind:id="post.id"/>
@@ -48,6 +48,9 @@ export default {
             posts: [],
             paginator: null
         }
+    },
+    mounted() {
+        if(!this.$store.getters.isAuthenticated) {this.$router.push({name: 'Home'})}
     },
     methods: {
         bottomPaginator(isVisible) {
