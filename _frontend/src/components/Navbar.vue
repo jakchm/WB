@@ -1,5 +1,7 @@
 <template>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+<nav class="navbar navbar-expand-lg">
+  <link rel="stylesheet" href="../assets/style.scss">
   <div class='container'>
     <router-link class="navbar-brand" to="/" ><img src="../assets/logo.png"></router-link>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -40,28 +42,20 @@ export default {
     },
     methods: {
       ...mapMutations([
-      'loadCategories', 
-      ]),
+      'loadCategories', ]),
     },
     created() {
-      if(this.$store.getters.getCategories.length == 0)
-      {
+      if(this.$store.getters.getCategories.length == 0) {
         getAPI.get('/category/')
         .then(response => {
           this.Categories = response.data
-          this.loadCategories(response.data);
-
-        })
+          this.loadCategories(response.data); })
         .catch(err => {
-          console.log(err)
-        })
+          console.log(err) })
       } else {
-        this.Categories = this.$store.getters.getCategories;
-      }
+        this.Categories = this.$store.getters.getCategories; }
     },
-    mounted() {
-      this.logged = this.$store.getters.isAuthenticated
-    },
+    mounted() { this.logged = this.$store.getters.isAuthenticated },
     watch: { 
       $route(to, from) { 
         if(to !== from) { location.reload(); } 
@@ -71,66 +65,73 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+@import "@/assets/style.scss";
 nav {
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-  nav .menu-item:link {
-  color: red;
-  }
-  nav .menu-item {
-    color: rgb(241, 241, 241);
-    font-size: 18px;
-    font-family: "Helvetica", sans-serif;
-    padding: 10px 10px;
-    margin: 2px;
-    position: relative;
-    text-align: center;
-    border-bottom: 3px solid transparent;
-    display: flex;
-    transition: 0.4s;
+    background-color: $headColor;
+    min-height: 7vh;
+
+    .nav-item a {
+        color: white;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .menu-item {
+        color: rgb(241, 241, 241);
+        font-size: 18px;
+        font-family: "Helvetica", sans-serif;
+        padding: 10px 10px;
+        margin: 2px;
+        position: relative;
+        text-align: center;
+        border-bottom: 3px solid transparent;
+        display: flex;
+        transition: 0.4s;
+        a {
+          color: white;
+          text-decoration: none;
+          cursor: pointer;
+        }
+    }
+
+    .dropbtn {
+        color: $backgroundColor;
+        padding: 16px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+      
+    .dropdown {
+        position: relative;
+        display: inline-block;
+
+        &:hover .dropdown-content { display: block; }  
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: $headColor;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1000;
+        a {
+            color: $basicFontColor;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            &:hover { background-color: #43484e; }
+          }
+    } 
   }
 .md-theme-default a:not(.md-button) {
-    color: #448aff;
-    color: #ffffff;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.dropbtn {
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #343a40;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1000;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {background-color: #43484e}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
+        color: white!important;
+        text-decoration: none!important;
+        cursor: pointer!important;
+        &:hover { color: $linkColor!important}
+  }
 </style>

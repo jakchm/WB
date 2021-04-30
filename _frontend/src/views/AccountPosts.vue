@@ -1,10 +1,12 @@
 <template>
 <div id='app'>
     <Navbar />
-    <div v-if="!$store.getters.isAuthenticated" class='container p-2 my-2 vh-sm-70'>
-        <div class="row">
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" v-for="post in posts" :key="post.id">
-                <Card v-bind:image="post.image" v-bind:title="post.title" v-bind:id="post.id"/>
+    <div class="main">
+        <div v-if="$store.getters.isAuthenticated" class='container p-2 my-2'>
+            <div class="row">
+                <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" v-for="post in posts" :key="post.id">
+                    <Card v-bind:image="post.image" v-bind:title="post.title" v-bind:id="post.id"/>
+                </div>
             </div>
         </div>
     </div>
@@ -31,16 +33,12 @@ export default {
                 headers: {
                     'accept': '*/*',
                     'Accept-Language': 'en-US,en;q=0.8',
-                    'Authorization': `Token ${this.$store.getters.getToken}`
-                }
+                    'Authorization': `Token ${this.$store.getters.getToken}` }
             }) 
         .then(response => {
             this.posts = response.data.results
-            this.paginator = response.data.next
-        })
-        .catch(e => {
-            console.log(e)
-        })
+            this.paginator = response.data.next })
+        .catch(e => { console.log(e) })
     },
     data () {
         return {
@@ -49,46 +47,33 @@ export default {
             paginator: null
         }
     },
-    mounted() {
-        if(!this.$store.getters.isAuthenticated) {this.$router.push({name: 'Home'})}
-    },
+    mounted() { if(!this.$store.getters.isAuthenticated) {this.$router.push({name: 'Home'})} },
     methods: {
         bottomPaginator(isVisible) {
             if (!isVisible) { return } 
-            if (this.paginator == null) {
-                console.log("Last page")
-            } else {
+            if (this.paginator == null) { console.log("Last page") } 
+            else {
                 console.log(this.paginator)
                 this.loadPagination(this.paginator)
-                this.$forceUpdate()
-            }
+                this.$forceUpdate() }
         },
         loadPagination(path) {
         axios.get(path,  {
                 headers: {
                     'accept': '*/*',
                     'Accept-Language': 'en-US,en;q=0.8',
-                    'Authorization': `Token ${this.$store.getters.getToken}`
-                }
+                    'Authorization': `Token ${this.$store.getters.getToken}` }
             }) 
         .then(response => {
             this.posts.push(...response.data.results)
             console.log(this.posts)
-            this.paginator = response.data.next
-        })
-        .catch(e => {
-            console.log(e)
-        })
+            this.paginator = response.data.next })
+        .catch(e => { console.log(e) })
         }
     }
 }
 </script>
 
-<style scoped>
-.vh-sm-70 {
-min-height:73.2vh;
-}
-.fill .map {
-  min-height: 500px;
-}
+<style lang="scss" scoped>
+@import "@/assets/style.scss";
 </style>

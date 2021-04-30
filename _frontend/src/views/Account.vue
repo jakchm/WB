@@ -1,6 +1,7 @@
 <template>
 <div id='app'>
     <Navbar />
+    <div class="main">
         <div class=" container account-box col-md-6 col-sm-12 col-xs-12">
             <Box title="Account data">
                 <div class="info_text_box">
@@ -20,6 +21,7 @@
                 cec
             </Box>
         </div>
+    </div>
     <Footer />
 </div>
 </template>
@@ -42,31 +44,24 @@ export default {
                 'accept': '*/*',
                 'Accept-Language': 'en-US,en;q=0.8',
                 'Content-Type': `multipart/form-data`,
-                'Authorization': `Token ${this.$store.getters.getToken}`
-                }
+                'Authorization': `Token ${this.$store.getters.getToken}` }
             })
             .then(response => {
                 this.user_data = response.data[0]
-                console.log(this.user_data)
-            })
+                console.log(this.user_data) })
             .catch(error => {
-                console.log(error.response.data.non_field_errors[0])
-                console.log(error)
-            })
+                console.log(error.response.data.non_field_errors[0]) })
         },
-    mounted() {
-        if(!this.$store.getters.isAuthenticated) {this.$router.push({name: 'Home'})}
-    },    
+    mounted() { if(!this.$store.getters.isAuthenticated) {this.$router.push({name: 'Home'})} },    
     data () {
-        return {
-            user_data: []
-        }
+        return { user_data: [] }
     }
 }
 </script>
 
-<style scoped>
-.vh-sm-70{
+<style lang="scss" scoped>
+@import "@/assets/style.scss";
+.vh-sm-70 {
 min-height:72.4vh;
 }
 
@@ -74,12 +69,10 @@ min-height:72.4vh;
     margin-bottom: 35px;
     margin-top: 35px;
     align-items: center;
-}
-
-.account-box p {
+    p {
     font-size: 15px;
+    }
 }
-
 
 .info_text_box {
   display: table-cell;
@@ -91,10 +84,7 @@ span {
     margin-top: 15px;
     display: inline-block;
     vertical-align: middle;
-    line-height: normal
+    line-height: normal;
 }
-
-
-
 
 </style>

@@ -1,7 +1,7 @@
 <template>
 <div id='app'>
     <Navbar />
-    <div class='container p-2 my-2 vh-sm-70'>
+    <div class='main container p-2 my-2'>
         <center><Alert v-if="error_text != null">{{error_text}}</Alert></center>
             <div class="form-group">
                 <label for="PostTitle">Post Title</label>
@@ -48,23 +48,19 @@ export default {
     },
     computed: {
         ...mapState([
-            'categories_list'
-        ])
+            'categories_list' ])
     },
     methods: {
         Validator () {
             if(this.post_data.title < 500 || this.post_data.title > 5000) {
                 this.error_text = "Title should have between 500-5000 characters"
-                return false
-            }
+                return false }
             if(this.post_data.text < 500 || this.post_data.text > 5000) {
                 this.error_text = "Title should have between 500-5000 characters"
-                return false
-            }
+                return false }
             if(this.selected_file == '') {
                 this.error_text = "Image should be loaded"
-                return false
-            }
+                return false }
             this.error_text = null;
             return true
         },
@@ -81,37 +77,28 @@ export default {
                     'accept': '*/*',
                     'Accept-Language': 'en-US,en;q=0.8',
                     'Content-Type': `multipart/form-data`,
-                    'Authorization': `Token ${this.$store.getters.getToken}`
-                }
+                    'Authorization': `Token ${this.$store.getters.getToken}` }
             })
             .then(response => {
-                console.log(response)
-            })
+                console.log(response) })
             .catch(error => {
                 this.error_text = error.response.data.non_field_errors[0]
                 console.log(error.response.data.non_field_errors[0])
-                console.log(error)
-            })
+                console.log(error) })
         },
-        SelectFile() {
-            this.selected_file = this.$refs.image_file.files[0]
-        },
+        SelectFile() { this.selected_file = this.$refs.image_file.files[0] },
         FetchSubacategory () {
-            if(this.$store.getters.getCategories[parseInt(document.getElementById("Select1").value) - 1] != null)
-            {
+            if(this.$store.getters.getCategories[parseInt(document.getElementById("Select1").value) - 1] != null) {
                 this.subcategories = this.$store.getters.getCategories[parseInt(document.getElementById("Select1").value) - 1].subcategories
                 document.getElementById("Select2").disabled = false;
             } else {
                 document.getElementById("Select2").disabled = true;
-                this.subcategories = {name: '', id: 1}
-            }
+                this.subcategories = {name: '', id: 1} }
             console.log(document.getElementById("Select1").value)
         }
 
     },
-    mounted() {
-        if(!this.$store.getters.isAuthenticated) {this.$router.push({name: 'Home'})}
-    },
+    mounted() { if(!this.$store.getters.isAuthenticated) {this.$router.push({name: 'Home'})} },
     data () {
         return {
             post_data: {
@@ -128,8 +115,6 @@ export default {
 }
 </script>
 
-<style scoped>
-.vh-sm-70{
-min-height:72.4vh;
-}
+<style lang="scss" scoped>
+@import "@/assets/style.scss";
 </style>

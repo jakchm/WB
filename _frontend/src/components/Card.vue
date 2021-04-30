@@ -25,24 +25,19 @@ export default {
     methods: {
       TrimTitle(title) {
         const MaxLength = 27;
-        if(title.length <= MaxLength) {
-          return title
-        }
+        if(title.length <= MaxLength) { return title; }
         else {
           for(let i = MaxLength; i > 0; i--) {
             if(title[i] === ' ') {
               title = title.slice(0,i);
               title += "...";
-              break;
-            }
+              break; }
           }
-          return title
-        }  
+          return title }  
       }
     },
     data() {
-        return {
-        }
+        return { }
     },
 }
 </script>

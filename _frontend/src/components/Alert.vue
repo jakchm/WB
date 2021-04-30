@@ -8,18 +8,18 @@
 export default {
     name: 'Alert',
     data() {
-        return {
-        }
+        return {}
     },
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/assets/style.scss";
 .alert-box {
     max-width: 50%;
     max-height: 50%;
-    background-color: #343a40;
-    border: 1px solid #ccc!important;
+    background-color: $headColor;
+    border: 1px solid $borderColor!important;
     border-style: groove;
     border-radius: 5px;
     min-height: 70px;

@@ -29,12 +29,13 @@
 export default {
     name: 'Footer',
     data() {
-        return {
-        }
+        return { }
     },
 }
 </script>
 
 <style scoped>
-
+footer {
+  min-height: 19vh;
+}
 </style>

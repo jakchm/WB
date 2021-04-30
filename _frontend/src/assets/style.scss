@@ -1,0 +1,49 @@
+//Colors main
+$headColor: #343a40;
+$backgroundColor: white;
+$basicFontColor: black;
+$linkColor: #448aff;
+$borderColor: #ccc;
+
+//Components
+nav { height: 7vh;}
+.main { min-height: 74vh;}
+footer { height: 19vh;}
+//7 + 74 + 19 = 100
+
+//Comments
+.comment {
+    border: 1px solid #ccc!important;
+    border-style: groove;
+    border-radius: 15px;
+    padding: 2%;
+    min-height: 60px;
+    margin-top: 20px;
+    margin-left: 10%;
+    margin-right: 0%;
+    background-color: rgb(255, 255, 255);
+    .add {
+        border: 1px solid #ccc!important;
+        border-style: groove;
+        border-radius: 15px;
+        padding: 2%;
+        min-height: 60px;
+        margin-top: 20px;
+        margin-left: 10%;
+        margin-right: 0%;
+        background-color: rgb(194, 194, 194)!important;
+    }
+    input {
+        margin-left: 15px;
+        margin-right: 5px;
+        border-radius: 5px;
+        width: 85%;
+        height: 30px;
+        border-style: none;
+    }
+    button {
+        border-radius: 5px;
+        background-color: rgb(230, 230, 230)!important;
+        border-style: none;
+    }
+}

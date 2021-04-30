@@ -1,7 +1,7 @@
 <template>
 <div id='app'>
     <Navbar />
-    <div class='container p-2 my-2 vh-sm-70'>
+    <div class='main container p-2 my-2'>
         <div class="row">
             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-xs-12" v-for="post in posts" :key="post.id">
                 <Card v-bind:image="post.image" v-bind:title="post.title" v-bind:id="post.id"/>
@@ -30,11 +30,8 @@ export default {
         getAPI.get('post/subcategory/' + this.id,) 
         .then(response => {
             this.posts = response.data.results
-            this.paginator = response.data.next
-        })
-        .catch(e => {
-            console.log(e)
-        })
+            this.paginator = response.data.next })
+        .catch(e => { console.log(e) })
     },
     data () {
         return {
@@ -45,34 +42,23 @@ export default {
     methods: {
         bottomPaginator(isVisible) {
             if (!isVisible) { return } 
-            if (this.paginator == null) {
-                console.log("Last page")
-            } else {
+            else {
                 console.log(this.paginator)
                 this.loadPagination(this.paginator)
-                this.$forceUpdate()
-            }
+                this.$forceUpdate() }
         },
         loadPagination(path) {
         axios.get(path) 
         .then(response => {
             this.posts.push(...response.data.results)
             console.log(this.posts)
-            this.paginator = response.data.next
-        })
-        .catch(e => {
-            console.log(e)
-        })
+            this.paginator = response.data.next })
+        .catch(e => { console.log(e) })
         }
     }
 }
 </script>
 
-<style scoped>
-.vh-sm-70 {
-min-height:73.2vh;
-}
-.fill .map {
-  min-height: 500px;
-}
+<style lang="scss" scoped>
+@import "@/assets/style.scss";
 </style>

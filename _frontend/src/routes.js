@@ -19,45 +19,37 @@ export default new VueRouter({
         {
             path: '/',
             name: 'Home',
-            component: Home,
-        },
+            component: Home, },
         {
             path: '/category/:id',
             name: 'CategoryView',
             props: true,
-            component: CategoryView,
-        },
+            component: CategoryView, },
         {
             path: '/subcategory/:id',
             name: 'SubCategoryView',
             props: true,
-            component: SubCategoryView,
-        },        
+            component: SubCategoryView, },        
         {
             path: '/post/:id',
             name: 'PostView',
             props: true,
-            component: PostView,
-        },
+            component: PostView, },
         {
             path: '/post_add',
             name: 'AddPost',
-            component: AddPost,
-        },
+            component: AddPost, },
         {
             path: '/account/login',
             name: 'Login',
-            component: Login,
-        },  
+            component: Login, },  
         {
             path: '/account',
             name: 'Account',
-            component: Account,
-        },
+            component: Account, },
         {
             path: '/account/posts',
             name: 'AccountPosts',
-            component: AccountPosts,
-        },
+            component: AccountPosts, },
     ]
 })

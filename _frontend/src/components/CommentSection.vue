@@ -5,10 +5,10 @@
         <Comment v-for="comment in comment_list" :key="comment.id" :author="comment.author_name">{{comment.text}}</Comment>
     </div>
     <div>
-        <div v-if="!logged" class="comment">
+        <div v-if="!logged" class="add">
             <h3>Log in to add comments</h3>
         </div>
-        <div v-else class="comment">
+        <div v-else class="add">
             <h4>Add comment</h4>
             <div class="row">
                 <input v-model="input_text">
@@ -24,40 +24,28 @@ import { getAPI } from '../axios-api'
 import Comment from '../components/Comment'
 export default {
     name: 'CommentSection',
-    components: {
-        Comment,
-    },
-    props: {
-        comment_list: Array,
-    },
+    components: { Comment },
+    props: { comment_list: Array },
     methods: {
         AddComment() {
             let fd = {
                 text: this.input_text,
-                post: this.id
-            }
-            console.log(fd)
+                post: this.id }
             if(this.input_text.length < 5 || this.input_text.length > 50) { return false }
             getAPI.post('/comment/add/', fd, {
                 headers: {
                     'accept': '*/*',
                     'Accept-Language': 'en-US,en;q=0.8',
-                    'Authorization': `Token ${this.$store.getters.getToken}`
-                }
+                    'Authorization': `Token ${this.$store.getters.getToken}` }
             })
             .then(response => {
                 console.log(response)
-                this.$parent.loadComments()
-                
-            })
+                this.$parent.loadComments() })
             .catch(error => {
-                console.log(error.response.data.non_field_errors[0])
-            })
+                console.log(error.response.data.non_field_errors[0]) })
         }
     },
-    mounted() {
-      this.logged = this.$store.getters.isAuthenticated;
-    },
+    mounted() { this.logged = this.$store.getters.isAuthenticated; },
     data() {
         return {
             logged: false,
@@ -68,9 +56,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+@import "@/assets/style.scss";
 .comment-box {
-    border: 1px solid #ccc!important;
+    border: 1px solid $borderColor!important;
     border-style: groove;
     border-radius: 15px;
     padding: 2%;
@@ -82,29 +71,15 @@ export default {
     margin-bottom: 20px;
     margin-left: 10%;
 }
-.comment {
-    border: 1px solid #ccc!important;
-    border-style: groove;
-    border-radius: 15px;
-    padding: 2%;
-    min-height: 60px;
-    margin-top: 20px;
-    margin-left: 10%;
-    margin-right: 0%;
-    background-color: rgb(214, 214, 214);
-}
-.comment input {
-    margin-left: 15px;
-    margin-right: 5px;
-    border-radius: 5px;
-    width: 85%;
-    height: 30px;
-    border-style: none;
-}
-.comment button {
-    border-radius: 5px;
-    background-color: rgb(230, 230, 230);
-    border-style: none;
-    
-}
+.add {
+        border: 1px solid $borderColor!important;
+        border-style: groove;
+        border-radius: 15px;
+        padding: 2%;
+        min-height: 60px;
+        margin-top: 20px;
+        margin-left: 10%;
+        margin-right: 0%;
+        background-color: rgb(194, 194, 194)!important;
+    }
 </style>

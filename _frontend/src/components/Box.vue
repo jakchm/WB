@@ -16,22 +16,23 @@ export default {
         title: String,
     },
     data() {
-        return {
-        }
+        return { }
     },
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/assets/style.scss";
+
 .component-box {
     max-width: 50%;
     max-height: 50%;
     min-width: 250px;
 }
 .component-box .head {
-    background-color: #343a40;
+    background-color: $headColor;
     height: 60px;
-    color: white;
+    color: $backgroundColor;
     font-size: 20px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
@@ -44,7 +45,7 @@ export default {
     
 }
 .component-box .body {
-    border: 1px solid #ccc!important;
+    border: 1px solid $borderColor!important;
     border-style: groove;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
